@@ -7,347 +7,140 @@
         <?php $view->script('theme' , 'theme:app/bundle/app.js') ?>
     </head>
     <body>
-        <nav class="uk-navbar-container">
-            <div class="uk-container uk-container-xlarge" uk-navbar>
+        <header class="uk-navbar-container">
+            <div class="uk-container uk-container-large" uk-navbar>
                 <div class="uk-navbar-left">
-                    <a class="uk-navbar-item">Hello World</a>
+                    <a class="uk-navbar-item uk-logo" href="<?= $view->url()->get() ?>">
+                        <?php if ($params['logo']) : ?>
+                            <img width="120" src="<?= $this->escape($params['logo']) ?>" alt="<?= $params['title'] ?>">
+                        <?php else : ?>
+                            <?= $params['title'] ?>
+                        <?php endif ?>
+                    </a>
                 </div>
-                <div class="uk-navbar-center">
-                    <ul class="uk-navbar-nav uk-visible@m">
-                        <li class="uk-active"><a>Anasayfa</a></li>
-                        <li><a>Hakkımızda</a></li>
-                        <li><a>Neler Yaparız</a></li>
-                        <li><a>Projelerimiz</a></li>
-                        <li><a>Haberler</a></li>
-                        <li><a>İletişim</a></li>
-                    </ul>
-                </div>
+
+                <?php if($view->menu()->exists('main')): ?>
+                    <div class="uk-navbar-center uk-visible@m">
+                        <?= $view->menu('main', 'defined/menu/navbar-nav.php') ?>
+                    </div>
+                <?php endif ?> 
+
                 <div class="uk-navbar-right">
-                    <ul class="uk-navbar-item uk-grid">
-                        <li>
-                            <a class="uk-button uk-button-primary uk-button-large">
-                                <span uk-icon="file-pdf"></span>
-                                Web Siteni Analiz Et
+                    <?php if($view->position()->exists('navbar')): ?>
+                        <ul class="uk-grid-small uk-navbar-item uk-visible@m" uk-grid>
+                            <?= $view->position('navbar', 'positions/position-navbar.php') ?>
+                        </ul>
+                    <?php endif ?>
+                    <div class="uk-navbar-item uk-visible@s">
+                        <?php if($view->params->get('registration_permit')): ?>
+                            <a href="<?= $view->url('@user/login') ?>" class="uk-button uk-button-primary uk-button-large">
+                                <i uk-icon="user" class="uk-margin-small-right"></i><?= __('Sign In') ?>
                             </a>
-                        </li>
-                        <li><a class="uk-link-text" uk-icon="more-vertical"></a></li>
-                    </ul>
+                        <?php endif ?>
+                        <?php if($app['user']->isAuthenticated()): ?>
+                            <ul class="uk-grid uk-flex-middle">
+                                <li><a href="<?= $view->url('@user/profile') ?>"><img class="uk-border-circle" data-src="<?= $app['user']->getAvatar() ?>" width="40" uk-img></a></li>
+                                <li><a title="<?= __('Logout') ?>" uk-tooltip href="<?= $view->url('@user/logout') ?>" uk-icon="icon:sign-out;ratio:1.3"></a></li>
+                            </ul>
+                        <?php endif ?>
+                    </div>
+                    <a class="uk-navbar-toggle uk-hidden@m" uk-navbar-toggle-icon href="#tm-mobile-navbar" uk-toggle></a>
                 </div>
             </div>
-        </nav>
+        </header>
 
-        <section class="uk-flex uk-flex-middle uk-flex-center uk-background-cover" data-src="<?= $view->url()->getStatic('theme:assets/images/hero.svg') ?>" uk-height-viewport="offset-bottom: 20" uk-img>
-            <div class="uk-section uk-section-large">
-                <div class="uk-container uk-container-large uk-text-center">
-                    <h1 class="uk-heading-xlarge uk-text-center tm-letter-spacing-large uk-text-light">HELLO <span class="uk-text-bold tm-text-background" data-src="<?= $view->url()->getStatic('theme:assets/images/text-pattern.svg') ?>" uk-img>WORLD</span></h1>
-                    <div class="uk-flex uk-flex-center uk-margin-medium">
-                        <p class="uk-width-2xlarge@m uk-text-light tm-letter-spacing">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ut aliquam veritatis amet expedita ullam sapiente blanditiis enim perspiciatis quasi numquam.</p>
-                    </div>
-                    <ul class="uk-margin uk-flex-middle uk-child-width-1-4@m" uk-grid>
-                        <li>
-                            <img data-src="<?= $view->url()->getStatic('theme:assets/images/brands/google.svg') ?>" width="100" uk-img>
-                        </li>
-                        <li>
-                            <img data-src="<?= $view->url()->getStatic('theme:assets/images/brands/yandex.svg') ?>" width="100" uk-img>
-                        </li>
-                        <li>
-                            <img data-src="<?= $view->url()->getStatic('theme:assets/images/brands/bing.svg') ?>" width="100" uk-img>
-                        </li>
-                        <li>
-                            <img data-src="<?= $view->url()->getStatic('theme:assets/images/brands/greencheap.svg') ?>" width="150" uk-img>
-                        </li>
-                    </ul>
-                    <ul class="uk-margin-large uk-flex-center" uk-grid>
-                        <li>
-                            <a class="uk-button uk-button-secondary uk-button-large">
-                                <span uk-icon="thumbnails"></span>
-                                Get Started
-                            </a>
-                        </li>
-                        <li>
-                            <a class="uk-button uk-button-muted uk-button-large">
-                                <span uk-icon="microphone"></span>
-                                Documentation
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section class="uk-section uk-section-xlarge uk-padding-remove-bottom uk-background-cover uk-background-position-bottom" data-src="<?= $view->url()->getStatic('theme:assets/images/home-section1.svg') ?>" uk-img>
-            <div class="uk-container uk-container-large">
-                <h2 class="uk-text-light uk-text-uppercase tm-letter-spacing-large">We Are Best In</h2>
-                <p class="uk-text-muted uk-width-2xlarge tm-letter-spacing">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. In labore, optio voluptates esse explicabo tenetur laudantium temporibus at porro? Provident?
-                </p>
-
-                <div class="uk-margin-large uk-child-width-1-3@m uk-grid-large" uk-grid>
-                    <div>
-                        <img data-src="<?= $view->url()->getStatic('theme:assets/images/compact/compact-image1.svg') ?>" width="80" uk-img>
-                        <h3 class="tm-letter-spacing">Multi-carriers in one app</h3>
-                        <p class="uk-text-muted tm-letter-spacing uk-text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam doloremque accusantium dolor tempora molestias culpa sed perspiciatis temporibus ea harum?</p>
-                    </div>
-                    <div>
-                        <img data-src="<?= $view->url()->getStatic('theme:assets/images/compact/compact-image2.svg') ?>" width="80" uk-img>
-                        <h3 class="tm-letter-spacing">Multi-carriers in one app</h3>
-                        <p class="uk-text-muted tm-letter-spacing uk-text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam doloremque accusantium dolor tempora molestias culpa sed perspiciatis temporibus ea harum?</p>
-                    </div>
-                    <div>
-                        <img data-src="<?= $view->url()->getStatic('theme:assets/images/compact/compact-image3.svg') ?>" width="80" uk-img>
-                        <h3 class="tm-letter-spacing">Multi-carriers in one app</h3>
-                        <p class="uk-text-muted tm-letter-spacing uk-text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam doloremque accusantium dolor tempora molestias culpa sed perspiciatis temporibus ea harum?</p>
-                    </div>
-                </div>
-
-                <hr class="uk-width-2xlarge@m">
-            </div>
-        </section>
-
-        <section class="uk-section uk-section-large uk-background-cover uk-background-position-bottom" data-src="<?= $view->url()->getStatic('theme:assets/images/home-section3.svg') ?>" uk-img>
-            <div class="uk-container uk-container-large">
-                <h2 class="uk-text-light uk-text-uppercase tm-letter-spacing-large">Our top features</h2>
-                <p class="uk-text-muted uk-width-2xlarge tm-letter-spacing">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. In labore, optio voluptates esse explicabo tenetur laudantium temporibus at porro? Provident?
-                </p>
-
-                <div class="uk-margin-large uk-child-width-1-3@m uk-grid-large" uk-grid>
-                    <div>
-                        <img data-src="<?= $view->url()->getStatic('theme:assets/images/compact/compact-image1.svg') ?>" width="80%" uk-img>
-                    </div>
-                    <div>
-                        <img data-src="<?= $view->url()->getStatic('theme:assets/images/compact/compact-image2.svg') ?>" width="80" uk-img>
-                        <h3 class="tm-letter-spacing">Multi-carriers in one app</h3>
-                        <p class="uk-text-muted tm-letter-spacing uk-text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam doloremque accusantium dolor tempora molestias culpa sed perspiciatis temporibus ea harum?</p>
-                    </div>
-                    <div>
-                        <img data-src="<?= $view->url()->getStatic('theme:assets/images/compact/compact-image3.svg') ?>" width="80" uk-img>
-                        <h3 class="tm-letter-spacing">Multi-carriers in one app</h3>
-                        <p class="uk-text-muted tm-letter-spacing uk-text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam doloremque accusantium dolor tempora molestias culpa sed perspiciatis temporibus ea harum?</p>
-                    </div>
-                </div>
+        <div id="tm-mobile-navbar" uk-offcanvas>
+            <div class="uk-offcanvas-bar">
+                <button class="uk-offcanvas-close" type="button" uk-close></button>
+                <a class="uk-logo" href="<?= $view->url()->get() ?>">
+                    <?php if ($params['logo']) : ?>
+                        <img width="150px" src="<?= $this->escape($params['logo']) ?>" alt="<?= $params['title'] ?>">
+                    <?php else : ?>
+                        <?= $params['title'] ?>
+                    <?php endif ?>
+                </a>
                 
-            </div>
-        </section>
+                <?php if($view->menu()->exists('main')): ?>
+                    <div class="uk-margin">
+                        <?= $view->menu('main', 'defined/menu/offcanvas-nav.php') ?>
+                    </div>
+                <?php endif ?>
 
-        <section class="uk-section uk-section-large uk-padding-remove-bottom uk-background-cover uk-background-position-bottom" data-src="<?= $view->url()->getStatic('theme:assets/images/home-section2.svg') ?>" uk-img>
-            <div class="uk-container uk-container-large">
-                <h2 class="uk-text-light uk-text-uppercase tm-letter-spacing-large">last BLOG</h2>
-                <p class="uk-text-muted uk-width-2xlarge tm-letter-spacing">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. In labore, optio voluptates esse explicabo tenetur laudantium temporibus at porro? Provident?
-                </p>
-            </div>
-            <div class="uk-container uk-container-large uk-margin-large-top">
-                <div class="uk-margin-large uk-child-width-1-3@m uk-grid-collapse uk-grid-match" uk-grid>
-                    <div>
-                        <div class="uk-padding-small">
-                            <img data-src="<?= $view->url()->getStatic('theme:assets/images/compact/compact-image1.svg') ?>" width="80%" uk-img>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="tm-background-secondary uk-padding">
-                            <ul class="uk-list tm-list-large">
-                                <li class="uk-flex uk-flex-middle">
-                                    <div>
-                                        <img data-src="<?= $view->url()->getStatic('theme:assets/images/compact/compact-image1.svg') ?>" width="80%" uk-img>
-                                    </div>
-                                    <div class="uk-margin-left">
-                                        <a class="uk-text-small">Lorem ipsum dolor sit amet, consectetur adipiscing</a>
-                                        <span class="uk-display-block uk-text-small">by <a>Ynswtf</a></span>
-                                    </div>
-                                </li>
-                                <li class="uk-flex uk-flex-middle">
-                                    <div>
-                                        <img data-src="<?= $view->url()->getStatic('theme:assets/images/compact/compact-image2.svg') ?>" width="80%" uk-img>
-                                    </div>
-                                    <div class="uk-margin-left">
-                                        <a class="uk-text-small">Lorem ipsum dolor sit amet, consectetur adipiscing</a>
-                                        <span class="uk-display-block uk-text-small">by <a>Ynswtf</a></span>
-                                    </div>
-                                </li>
-                                <li class="uk-flex uk-flex-middle">
-                                    <div>
-                                        <img data-src="<?= $view->url()->getStatic('theme:assets/images/compact/compact-image3.svg') ?>" width="80%" uk-img>
-                                    </div>
-                                    <div class="uk-margin-left">
-                                        <a class="uk-text-small">Lorem ipsum dolor sit amet, consectetur adipiscing</a>
-                                        <span class="uk-display-block uk-text-small">by <a>Ynswtf</a></span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="tm-background-secondary uk-padding">
-                            <ul class="uk-list tm-list-large">
-                                <li class="uk-flex uk-flex-middle">
-                                    <div>
-                                        <img data-src="<?= $view->url()->getStatic('theme:assets/images/compact/compact-image3.svg') ?>" width="80%" uk-img>
-                                    </div>
-                                    <div class="uk-margin-left">
-                                        <a class="uk-text-small">Lorem ipsum dolor sit amet, consectetur adipiscing</a>
-                                        <span class="uk-display-block uk-text-small">by <a>Ynswtf</a></span>
-                                    </div>
-                                </li>
-                                <li class="uk-flex uk-flex-middle">
-                                    <div>
-                                        <img data-src="<?= $view->url()->getStatic('theme:assets/images/compact/compact-image2.svg') ?>" width="80%" uk-img>
-                                    </div>
-                                    <div class="uk-margin-left">
-                                        <a class="uk-text-small">Lorem ipsum dolor sit amet, consectetur adipiscing</a>
-                                        <span class="uk-display-block uk-text-small">by <a>Ynswtf</a></span>
-                                    </div>
-                                </li>
-                                <li class="uk-flex uk-flex-middle">
-                                    <div>
-                                        <img data-src="<?= $view->url()->getStatic('theme:assets/images/compact/compact-image1.svg') ?>" width="80%" uk-img>
-                                    </div>
-                                    <div class="uk-margin-left">
-                                        <a class="uk-text-small">Lorem ipsum dolor sit amet, consectetur adipiscing</a>
-                                        <span class="uk-display-block uk-text-small">by <a>Ynswtf</a></span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                <?php if($view->position()->exists('navbar')): ?>
+                    <ul class="uk-list">
+                        <?= $view->position('navbar', 'positions/position-navbar.php') ?>
+                    </ul>
+                <?php endif ?>
+
+                <div class="uk-margin">
+                    <?php if($view->params->get('registration_permit')): ?>
+                        <a href="<?= $view->url('@user/login') ?>" class="uk-button uk-button-secondary">
+                            <?= __('Sign In') ?>
+                        </a>
+                    <?php endif ?>
+                    <?php if($app['user']->isAuthenticated()): ?>
+                        <ul class="uk-grid uk-flex-middle">
+                            <li><a href="<?= $view->url('@user/profile') ?>"><img class="uk-border-circle" data-src="<?= $app['user']->getAvatar() ?>" width="40" uk-img></a></li>
+                            <li><a title="<?= __('Logout') ?>" uk-tooltip href="<?= $view->url('@user/logout') ?>" uk-icon="icon:sign-out;ratio:1.3"></a></li>
+                        </ul>
+                    <?php endif ?>
                 </div>
-            </div>
-        </section>
 
-        <?= $view->render('content') ?>
-
-        <section class="uk-section-large uk-position-relative">
-            <div class="uk-section uk-section-secondary tm-background-secondary uk-section-large">
-                <div class="uk-container uk-container-large">
-                    <div class="uk-flex-middle uk-grid-large uk-grid-match" uk-grid>
-                        <div class="uk-width-medium">
-                            
-                        </div>
-                        <div class="uk-width-expand">
-                            <h2 class="uk-text-light uk-text-uppercase uk-text-center tm-letter-spacing-large">Lorem ipsum dolor sit amet</h2>
-                            <div class="uk-flex uk-flex-center uk-margin-large">
-                                <div>
-                                    <div class="uk-child-width-1-4@m uk-flex-middle" uk-grid>
-                                        <div class="uk-text-center">
-                                            <img data-src="<?= $view->url()->getStatic('theme:assets/images/technology/docker.svg') ?>" width="60%" uk-img>
-                                        </div>
-                                        <div class="uk-text-center">
-                                            <img data-src="<?= $view->url()->getStatic('theme:assets/images/technology/symfony.svg') ?>" width="60%" uk-img>
-                                        </div>
-                                        <div class="uk-text-center">
-                                            <img data-src="<?= $view->url()->getStatic('theme:assets/images/technology/vuejs.svg') ?>" width="60%" uk-img>
-                                        </div>
-                                        <div class="uk-text-center">
-                                            <img data-src="<?= $view->url()->getStatic('theme:assets/images/technology/webpack.svg') ?>" width="60%" uk-img>
-                                        </div>
-                                    </div>
-
-                                    <p class="uk-margin-large-top uk-text-center">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer imperdiet libero a metus mollis, sit amet porta ipsum porttitor. Nunc mollis a ligula at mattis.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="uk-width-medium">
-                            <div class="uk-card uk-card-muted uk-card-body uk-box-shadow-medium uk-card-small uk-text-center tm-card-circle-radius">
-                                <img data-src="<?= $view->url()->getStatic('theme:assets/images/circle-chart2.svg') ?>" width="100%" uk-img>
-                                <h3 class="uk-text-light uk-margin-small">lorem ipsum dolor</h3>
-                            </div>
-                        </div>
+                <?php if($view->menu()->exists('others')): ?>
+                    <hr>
+                    <div class="uk-margin">
+                        <?= $view->menu('others', 'defined/menu/offcanvas-nav.php') ?>
                     </div>
-                </div>
+                <?php endif ?>
             </div>
-            <div class="uk-container uk-container-large uk-section-large uk-padding-remove-bottom">
-                <div class="uk-grid-large" uk-grid>
+        </div>
+
+        <?php if($view->position()->exists('top')): ?>
+            <?= $view->position('top', 'positions/position-default.php') ?>
+        <?php endif ?> 
+
+        <?php 
+            $section = [
+                $params['section'], $params['sectionSize'], $params['contentAlign']
+            ];
+            $image = null;
+            if($params['sectionImage']){
+                $section[] = 'uk-background-image uk-background-cover';
+                $imageUrl = $view->url()->getStatic($params['sectionImage']);
+                $image = "data-src='$imageUrl' uk-img";
+            }
+
+            $title = implode(' ', [$params['titleColor'], $params['titleClass']]);
+        ?>
+        <section class="<?= implode(' ', $section) ?>" <?= $image ?>>
+            <div class="uk-container">
+                <div uk-grid>
+                    <div class="uk-width-expand@s">
+                        <?= $view->render('content') ?>
+                    </div>
+                    <?php if($view->position()->exists('sidebar')): ?>
                     <div class="uk-width-medium@m">
-                        <div class="tm-circle-position uk-card uk-card-default uk-card-body uk-card-small uk-text-center tm-card-circle-radius">
-                            <img data-src="<?= $view->url()->getStatic('theme:assets/images/circle-chart.svg') ?>" width="100%" uk-img>
-                            <h3 class="uk-text-light uk-margin-small">page speed</h3>
-                        </div>
+                        <ul class="uk-list uk-list-large uk-list-divider">
+                            <?= $view->position('sidebar', 'positions/position-sidebar.php') ?>
+                        </ul>
                     </div>
-                    <div class="uk-width-expand@m">
-                        <div class="uk-child-width-1-2@m" uk-grid>
-                            <div>
-                                <div class="uk-panel">
-                                    <img data-src="<?= $view->url()->getStatic('theme:assets/images/compact/compact-image1.svg') ?>" width="80" uk-img>
-                                    <h2 class="tm-letter-spacing uk-h3 uk-margin-small">Lorem ipsum dolor sit amet.</h2>
-                                    <p class="uk-text-muted uk-text-justify uk-margin-small">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum architecto id mollitia error consequatur molestias provident, incidunt iste inventore voluptas aperiam doloremque cumque quas optio 
-                                    </p>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="uk-panel">
-                                    <img data-src="<?= $view->url()->getStatic('theme:assets/images/compact/compact-image2.svg') ?>" width="80" uk-img>
-                                    <h2 class="tm-letter-spacing uk-h3 uk-margin-small">Lorem ipsum dolor sit amet.</h2>
-                                    <p class="uk-text-muted uk-text-justify uk-margin-small">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum architecto id mollitia error consequatur molestias provident, incidunt iste inventore voluptas aperiam doloremque cumque quas optio 
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endif ?> 
                 </div>
             </div>
         </section>
 
-        <footer class="uk-section uk-section-secondary uk-section-medium tm-background-secondary">
-            <div class="uk-container uk-container-large">
-                <div class="uk-child-width-1-4@m uk-grid-large" uk-grid>
-                    <div>
-                        <div class="uk-panel">
-                            <h2>Hello World</h2>
-                            <p class="uk-text-justify">
-                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Provident soluta aut, vitae assumenda rem aperiam maiores nisi consectetur mollitia sit!
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <h4>Suspendisse congue</h4>
-                        <ul class="uk-margin-top uk-nav uk-nav-default tm-nav-default">
-                            <li><a>Home</a></li>
-                            <li><a>About Us</a></li>
-                            <li><a>Services</a></li>
-                            <li><a>Projects</a></li>
-                            <li><a>News</a></li>
-                            <li><a>Contact</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4>Suspendisse congue</h4>
-                        <ul class="uk-margin-top uk-nav uk-nav-default tm-nav-default">
-                            <li><a>Home</a></li>
-                            <li><a>About Us</a></li>
-                            <li><a>Services</a></li>
-                            <li><a>Projects</a></li>
-                            <li><a>News</a></li>
-                            <li><a>Contact</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4>Suspendisse congue</h4>
-                        <div class="uk-margin-top">
-                            <div class="uk-inline">
-                                <a class="tm-form-icon-muted uk-form-icon uk-form-icon-flip" uk-icon="icon:arrow-right;ratio:1.5"></a>
-                                <input type="text" class="uk-input uk-form-width-large uk-form-blank tm-form-blank" placeholder="Mail Adresiniz">
-                            </div>
-                            <p class="uk-text-right">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            </p>
-                            <div class="uk-flex uk-flex-right">
-                                <ul class="uk-iconnav tm-iconnav-padding">
-                                    <li><a uk-icon="facebook"></a></li>
-                                    <li><a uk-icon="twitter"></a></li>
-                                    <li><a uk-icon="instagram"></a></li>
-                                    <li><a uk-icon="github"></a></li>
-                                    <li><a uk-icon="youtube"></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+        <?php if($view->position()->exists('bottom')): ?>
+            <?= $view->position('bottom', 'positions/position-default.php') ?>
+        <?php endif ?> 
 
-                </div>
+        <?php if($view->position()->exists('footer')): ?>
+            <?= $view->position('footer', 'positions/position-default.php') ?>
+        <?php endif ?> 
+        <footer class="uk-section tm-background-secondary uk-section-xsmall">
+            <div class="uk-container uk-container-large uk-text-center uk-text-meta">
+                <u><?= $params->get('title') ?></u> developed with love, caffeine and <a href="https://greencheap.net" target="_blank">GreenCheap CMS</a>
             </div>
         </footer>
+        <?php $view->render('footer') ?>
     </body>
 </html>
