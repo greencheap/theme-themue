@@ -1,9 +1,9 @@
 {
     "name": "greencheap/themue",
     "type": "greencheap-theme",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "title": "Themue",
-    "description": "",
+    "description": "A great theme to get your business started.",
     "license": "MIT",
       "authors": [
         {
